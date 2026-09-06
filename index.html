@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>עידן וקנין | בונה לעסקים כלים שעובדים בשטח</title>
+<meta name="description" content="אתרים, דפי נחיתה, סוכני וואטסאפ ואוטומציות AI — נבנים מהר, בעברית מלאה, ומחוברים לתפעול האמיתי של העסק.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23c9701f'/%3E%3Ctext x='50' y='68' font-size='58' font-family='Arial, sans-serif' font-weight='800' fill='white' text-anchor='middle'%3EIV%3C/text%3E%3C/svg%3E">
+<meta property="og:title" content="עידן וקנין | בונה לעסקים כלים שעובדים בשטח">
+<meta property="og:description" content="אתרים, דפי נחיתה, סוכני וואטסאפ ואוטומציות AI לעסקים — פתרונות שבנויים לעבוד ביום עמוס.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html, body { margin:0; padding:0; background:#f7f4ee; color:#1c1916; font-family:'Source Sans 3','Segoe UI',Arial,sans-serif; line-height:1.6; -webkit-text-size-adjust:100%; }
+  * { box-sizing:border-box; }
+  ::selection { background:#c9701f; color:#fff; }
+  a { color:#1f8f83; text-decoration:none; }
+  a:hover { color:#c9701f; }
+  @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+  @keyframes glow { 0%,100% { opacity:.55; } 50% { opacity:1; } }
+  @keyframes dot { 0%,80%,100% { transform:translateY(0); opacity:.4; } 40% { transform:translateY(-4px); opacity:1; } }
+  @media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
+
+  /* ---------- polish additions ---------- */
+  html { scroll-behavior: smooth; }
+  section { scroll-margin-top: 84px; }
+
+  /* header comes alive on scroll */
+  header { transition: box-shadow .3s ease, background .3s ease; }
+  header.is-scrolled { box-shadow: 0 6px 24px rgba(28,25,22,.08); }
+
+  /* scroll-reveal for main sections */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.2,.7,.3,1), transform .7s cubic-bezier(.2,.7,.3,1); }
+  .reveal.is-visible { opacity: 1; transform: none; }
+
+  /* hero decorative glow blobs */
+  section[data-dc-tpl="15"]::before,
+  section[data-dc-tpl="15"]::after {
+    content: ''; position: absolute; border-radius: 50%; filter: blur(60px);
+    pointer-events: none; z-index: 0; animation: drift 14s ease-in-out infinite;
+  }
+  section[data-dc-tpl="15"]::before {
+    width: 340px; height: 340px; background: radial-gradient(circle, rgba(201,112,31,.20), transparent 70%);
+    top: -120px; inset-inline-end: -60px;
+  }
+  section[data-dc-tpl="15"]::after {
+    width: 260px; height: 260px; background: radial-gradient(circle, rgba(31,143,131,.16), transparent 70%);
+    bottom: -100px; inset-inline-start: 10%; animation-delay: -7s;
+  }
+  section[data-dc-tpl="15"] > * { position: relative; z-index: 1; }
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-16px, 18px) scale(1.08); }
+  }
+
+  /* nav links */
+  .scp0 { position: relative; transition: color .25s ease, background .25s ease; }
+  .scp0:hover { color: #1c1916 !important; background: rgba(28,25,22,.06); }
+
+  /* primary CTA buttons (WhatsApp / orange) */
+  .scp1 { position: relative; overflow: hidden; transition: transform .28s cubic-bezier(.2,.8,.3,1), box-shadow .28s ease, background .28s ease; }
+  .scp1:hover { transform: translateY(-3px); background: rgb(217, 124, 40) !important; box-shadow: 0 14px 30px -10px rgba(201,112,31,.65) !important; }
+  .scp1::after {
+    content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,.35) 40%, transparent 60%);
+    transform: translateX(-120%); transition: transform .6s ease;
+  }
+  .scp1:hover::after { transform: translateX(120%); }
+
+  /* secondary outline buttons */
+  .scp2, .scp4 { transition: transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease; }
+  .scp2:hover { transform: translateY(-3px); background: rgb(247, 244, 238) !important; border-color: rgba(28,25,22,.3) !important; }
+  .scp4:hover { transform: translateY(-3px); background: rgb(226, 145, 63) !important; color: #fff !important; }
+
+  /* service + portfolio cards already had transition; just add the missing hover state */
+  .scp3:hover { transform: translateY(-6px); box-shadow: 0 16px 32px -10px rgba(28,25,22,.16); border-color: rgba(28,25,22,.22) !important; }
+  .scp5:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -14px rgba(28,25,22,.22) !important; }
+
+  /* "read more" arrow links */
+  .scp6 { transition: gap .25s ease, color .25s ease; }
+  .scp6:hover { gap: 11px !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; }
+    section[data-dc-tpl="15"]::before, section[data-dc-tpl="15"]::after { animation: none !important; }
+  }
+
+</style>
+</head>
+<body>
+<div id="dc-root"><div class="sc-host" data-sc-name="index"><div data-dc-tpl="4" dir="rtl" style="min-height: 100vh; background: radial-gradient(120% 60% at 80% -10%, rgb(253, 246, 233) 0%, rgb(247, 244, 238) 55%); font-family: &quot;Source Sans 3&quot;, &quot;Segoe UI&quot;, Arial, sans-serif; color: rgb(28, 25, 22);">
+
+  <header data-dc-tpl="5" style="position: sticky; top: 0px; z-index: 20; background: rgba(247, 244, 238, 0.88); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(28, 25, 22, 0.08);">
+    <div data-dc-tpl="6" style="max-width: 1080px; margin: 0px auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+      <div data-dc-tpl="7" style="display: flex; align-items: center; gap: 10px; font-family: &quot;Big Shoulders Display&quot;, sans-serif; font-weight: 800; font-size: 1.2rem;">
+        <span data-dc-tpl="8" style="width: 10px; height: 10px; border-radius: 50%; background: rgb(201, 112, 31); box-shadow: rgba(201, 112, 31, 0.16) 0px 0px 0px 4px; animation: 2.6s ease-in-out 0s infinite normal none running glow;"></span>
+        עידן וקנין
+      </div>
+      <nav data-dc-tpl="9" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end;">
+        <a data-dc-tpl="10" href="#services" class="scp0" style="padding: 8px 12px; border-radius: 8px; font-size: 0.93rem; color: rgb(107, 98, 85);">שירותים</a>
+        <a data-dc-tpl="11" href="#work" class="scp0" style="padding: 8px 12px; border-radius: 8px; font-size: 0.93rem; color: rgb(107, 98, 85);">עבודות</a>
+        <a data-dc-tpl="12" href="#how" class="scp0" style="padding: 8px 12px; border-radius: 8px; font-size: 0.93rem; color: rgb(107, 98, 85);">איך זה עובד</a>
+        <a data-dc-tpl="13" href="https://wa.me/972500000000" target="_blank" rel="noopener" class="scp1" style="display: inline-flex; align-items: center; gap: 7px; padding: 10px 16px; border-radius: 10px; background: rgb(201, 112, 31); color: rgb(255, 255, 255); font-weight: 700; font-size: 0.93rem; box-shadow: rgba(201, 112, 31, 0.9) 0px 8px 20px -12px;">
+          דברו איתי בוואטסאפ
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main data-dc-tpl="14" style="max-width: 1080px; margin: 0px auto; padding: 0px 24px;">
+
+    <section data-dc-tpl="15" style="position: relative; overflow: hidden; padding: 72px 0px 56px; display: grid; grid-template-columns: minmax(0px, 1.45fr) minmax(0px, 1fr); gap: 44px; align-items: end; border-bottom: 1px solid rgba(28, 25, 22, 0.08);">
+      <div data-dc-tpl="16" style="animation: 0.7s ease 0s 1 normal both running rise;">
+        <p data-dc-tpl="17" style="margin: 0px 0px 14px; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(31, 143, 131);">הטמעת AI · אוטומציות · סוכנים חכמים</p>
+        <h1 data-dc-tpl="18" style="margin: 0px 0px 18px; font-family: &quot;Big Shoulders Display&quot;, &quot;Arial Narrow&quot;, sans-serif; font-weight: 800; font-size: clamp(2.5rem, 6vw, 4.4rem); line-height: 0.98; text-wrap: balance;">
+          בונה לעסקים כלים
+          <span data-dc-tpl="19" style="color: rgb(201, 112, 31);">שעובדים בשטח</span>
+        </h1>
+        <p data-dc-tpl="20" style="margin: 0px 0px 26px; font-size: 1.14rem; color: rgb(107, 98, 85); max-width: 48ch; text-wrap: pretty;">אתרים, דפי נחיתה, סוכני וואטסאפ ואוטומציות — נבנים מהר, בעברית מלאה, ומחוברים לתפעול האמיתי של העסק. שש שנים בניהול תחנת דלק לימדו אותי שכלי שלא עובד ביום עמוס פשוט לא עובד.</p>
+        <div data-dc-tpl="21" style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <a data-dc-tpl="22" href="https://wa.me/972500000000" target="_blank" rel="noopener" class="scp1" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 10px; background: rgb(201, 112, 31); color: rgb(255, 255, 255); font-weight: 700; box-shadow: rgba(201, 112, 31, 0.95) 0px 10px 26px -14px;">קבלת הצעה תוך 24 שעות</a>
+          <a data-dc-tpl="23" href="#work" class="scp2" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 10px; border: 1px solid rgba(28, 25, 22, 0.16); background: rgb(255, 255, 255); color: rgb(28, 25, 22); font-weight: 600;">לראות עבודות חיות</a>
+        </div>
+      </div>
+      <div data-dc-tpl="24" style="display: flex; flex-direction: column; gap: 18px; padding-inline-start: 26px; border-inline-start: 1px solid rgba(28, 25, 22, 0.14); animation: 0.7s ease 0.12s 1 normal both running rise;">
+        <div data-dc-tpl="25" style="display: flex; flex-direction: column; gap: 2px;">
+          <span data-dc-tpl="26" class="stat-num" data-count="6" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-weight: 500; font-size: 2rem; line-height: 1; color: rgb(31, 143, 131);">0</span>
+          <span data-dc-tpl="27" style="font-size: 0.86rem; color: rgb(107, 98, 85);">שנות ניהול תפעולי</span>
+        </div>
+        <div data-dc-tpl="28" style="display: flex; flex-direction: column; gap: 2px;">
+          <span data-dc-tpl="29" class="stat-num" data-count="4" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-weight: 500; font-size: 2rem; line-height: 1; color: rgb(31, 143, 131);">0</span>
+          <span data-dc-tpl="30" style="font-size: 0.86rem; color: rgb(107, 98, 85);">פרויקטים חיים באוויר</span>
+        </div>
+        <div data-dc-tpl="31" style="display: flex; flex-direction: column; gap: 2px;">
+          <span data-dc-tpl="32" class="stat-num" data-count="24" data-suffix="ש׳" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-weight: 500; font-size: 2rem; line-height: 1; color: rgb(31, 143, 131);">0ש׳</span>
+          <span data-dc-tpl="33" style="font-size: 0.86rem; color: rgb(107, 98, 85);">שעות לחזרה עם הצעה</span>
+        </div>
+      </div>
+    </section>
+
+    <div data-dc-tpl="34" style="padding: 22px 0px; display: flex; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid rgba(28, 25, 22, 0.08);">
+      <span data-dc-tpl="35" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.8rem; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(28, 25, 22, 0.14); background: rgb(255, 255, 255); color: rgb(107, 98, 85);">Claude Code</span>
+      <span data-dc-tpl="36" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.8rem; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(28, 25, 22, 0.14); background: rgb(255, 255, 255); color: rgb(107, 98, 85);">Claude API</span>
+      <span data-dc-tpl="37" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.8rem; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(28, 25, 22, 0.14); background: rgb(255, 255, 255); color: rgb(107, 98, 85);">Make · אוטומציות</span>
+      <span data-dc-tpl="38" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.8rem; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(28, 25, 22, 0.14); background: rgb(255, 255, 255); color: rgb(107, 98, 85);">Twilio WhatsApp</span>
+      <span data-dc-tpl="39" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.8rem; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(28, 25, 22, 0.14); background: rgb(255, 255, 255); color: rgb(107, 98, 85);">Google Calendar</span>
+      <span data-dc-tpl="40" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.8rem; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(28, 25, 22, 0.14); background: rgb(255, 255, 255); color: rgb(107, 98, 85);">אתרים ודפי נחיתה</span>
+    </div>
+
+    <section data-dc-tpl="41" id="services" class="reveal" style="padding: 58px 0px 10px;">
+      <div data-dc-tpl="42" style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 30px;">
+        <h2 data-dc-tpl="43" style="margin: 0px; font-family: &quot;Big Shoulders Display&quot;, sans-serif; font-weight: 800; font-size: 1.95rem;">מה אני בונה</h2>
+        <p data-dc-tpl="44" style="margin: 0px; font-size: 0.92rem; color: rgb(107, 98, 85); max-width: 36ch; text-align: start;">ארבעה סוגי עבודה, כולם עם אותה מטרה: פחות עבודה ידנית ויותר לקוחות שנסגרים.</p>
+      </div>
+      <div data-dc-tpl="45" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+        <div data-dc-tpl="46" class="scp3" style="background: rgb(255, 255, 255); border: 1px solid rgba(28, 25, 22, 0.14); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 9px; transition: transform 0.18s, box-shadow 0.18s;">
+          <span data-dc-tpl="47" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(201, 112, 31);">01</span>
+          <h3 data-dc-tpl="48" style="margin: 0px; font-size: 1.12rem;">אתרים ודפי נחיתה</h3>
+          <p data-dc-tpl="49" style="margin: 0px; font-size: 0.94rem; color: rgb(107, 98, 85);">עברית מלאה, מהיר בנייד, עם מחירון, המלצות וכפתורי חיוג ווואטסאפ בכל מסך.</p>
+        </div>
+        <div data-dc-tpl="50" class="scp3" style="background: rgb(255, 255, 255); border: 1px solid rgba(28, 25, 22, 0.14); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 9px; transition: transform 0.18s, box-shadow 0.18s;">
+          <span data-dc-tpl="51" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(201, 112, 31);">02</span>
+          <h3 data-dc-tpl="52" style="margin: 0px; font-size: 1.12rem;">סוכני וואטסאפ</h3>
+          <p data-dc-tpl="53" style="margin: 0px; font-size: 0.94rem; color: rgb(107, 98, 85);">עונים ללקוחות 24/7, קובעים תורים מול היומן, שולחים תזכורות ומעבירים אליכם רק את מה שחשוב.</p>
+        </div>
+        <div data-dc-tpl="54" class="scp3" style="background: rgb(255, 255, 255); border: 1px solid rgba(28, 25, 22, 0.14); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 9px; transition: transform 0.18s, box-shadow 0.18s;">
+          <span data-dc-tpl="55" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(201, 112, 31);">03</span>
+          <h3 data-dc-tpl="56" style="margin: 0px; font-size: 1.12rem;">אוטומציות תפעול</h3>
+          <p data-dc-tpl="57" style="margin: 0px; font-size: 0.94rem; color: rgb(107, 98, 85);">חיבור בין הטפסים, הגיליונות והיומן — כדי שאף ליד לא ייפול ואף דוח לא יוקלד ביד.</p>
+        </div>
+        <div data-dc-tpl="58" class="scp3" style="background: rgb(255, 255, 255); border: 1px solid rgba(28, 25, 22, 0.14); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 9px; transition: transform 0.18s, box-shadow 0.18s;">
+          <span data-dc-tpl="59" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(201, 112, 31);">04</span>
+          <h3 data-dc-tpl="60" style="margin: 0px; font-size: 1.12rem;">חומרי מכירה ומצגות</h3>
+          <p data-dc-tpl="61" style="margin: 0px; font-size: 0.94rem; color: rgb(107, 98, 85);">מצגות אינטראקטיביות והסברים פשוטים שמוכרים את השירות שלכם בלי מילים גדולות.</p>
+        </div>
+      </div>
+    </section>
+
+    <section data-dc-tpl="62" id="demo" class="reveal" style="padding: 56px 0px;">
+      <div data-dc-tpl="63" style="background: linear-gradient(155deg, rgb(27, 23, 19), rgb(36, 31, 25)); border-radius: 18px; padding: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; align-items: center; box-shadow: rgba(28, 25, 22, 0.75) 0px 24px 60px -34px;">
+        <div data-dc-tpl="64">
+          <p data-dc-tpl="65" style="margin: 0px 0px 10px; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(87, 189, 177);">דמו חי</p>
+          <h2 data-dc-tpl="66" style="margin: 0px 0px 12px; font-family: &quot;Big Shoulders Display&quot;, sans-serif; font-weight: 800; font-size: 1.9rem; color: rgb(242, 236, 225);">כך נראית שיחה עם "רותי"</h2>
+          <p data-dc-tpl="67" style="margin: 0px 0px 18px; font-size: 1rem; color: rgb(201, 191, 174); max-width: 40ch;">סוכנת וואטסאפ שמנהלת תורים מול Google Calendar, מזהה בקשות דחופות ומעבירה אותן לבן אדם. השיחה כאן רצה באמת — בדיוק כמו אצל הלקוח.</p>
+          <a data-dc-tpl="68" href="https://wa.me/972500000000" target="_blank" rel="noopener" class="scp4" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 10px; border: 1px solid rgb(226, 145, 63); color: rgb(226, 145, 63); font-weight: 700;">רוצה סוכן כזה לעסק שלי</a>
+        </div>
+        <div data-dc-tpl="69" style="background: linear-gradient(155deg, rgb(13, 61, 51), rgb(18, 63, 52)); border-radius: 14px; padding: 18px; min-height: 250px; display: flex; flex-direction: column; gap: 9px; justify-content: flex-end;">
+          
+            <div data-dc-tpl="71" style="max-width: 84%; padding: 10px 13px; border-radius: 14px; font-size: 0.9rem; line-height: 1.45; animation: 0.35s ease 0s 1 normal both running rise; align-self: flex-start; background: rgba(255, 255, 255, 0.94); color: rgb(28, 25, 22);"><span class="sc-interp">היי, אפשר לקבוע תור לשבוע הבא?</span></div>
+          
+            <div data-dc-tpl="71" style="max-width: 84%; padding: 10px 13px; border-radius: 14px; font-size: 0.9rem; line-height: 1.45; animation: 0.35s ease 0s 1 normal both running rise; align-self: flex-end; background: rgb(37, 211, 102); color: rgb(4, 34, 15);"><span class="sc-interp">בטח! יש פנוי שלישי 14:00 או רביעי 10:00 — מה מתאים לך?</span></div>
+          
+            <div data-dc-tpl="71" style="max-width: 84%; padding: 10px 13px; border-radius: 14px; font-size: 0.9rem; line-height: 1.45; animation: 0.35s ease 0s 1 normal both running rise; align-self: flex-start; background: rgba(255, 255, 255, 0.94); color: rgb(28, 25, 22);"><span class="sc-interp">רביעי 10:00 מעולה</span></div>
+          
+          
+            <div data-dc-tpl="73" style="align-self: flex-end; display: flex; gap: 5px; padding: 12px 15px; border-radius: 14px; background: rgb(37, 211, 102);">
+              <span data-dc-tpl="74" style="width: 6px; height: 6px; border-radius: 50%; background: rgb(4, 34, 15); animation: 1.1s ease-in-out 0s infinite normal none running dot;"></span>
+              <span data-dc-tpl="75" style="width: 6px; height: 6px; border-radius: 50%; background: rgb(4, 34, 15); animation: 1.1s ease-in-out 0.15s infinite normal none running dot;"></span>
+              <span data-dc-tpl="76" style="width: 6px; height: 6px; border-radius: 50%; background: rgb(4, 34, 15); animation: 1.1s ease-in-out 0.3s infinite normal none running dot;"></span>
+            </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <section data-dc-tpl="77" id="work" class="reveal" style="padding: 10px 0px 58px;">
+      <div data-dc-tpl="78" style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 30px;">
+        <h2 data-dc-tpl="79" style="margin: 0px; font-family: &quot;Big Shoulders Display&quot;, sans-serif; font-weight: 800; font-size: 1.95rem;">עבודות באוויר</h2>
+        <p data-dc-tpl="80" style="margin: 0px; font-size: 0.92rem; color: rgb(107, 98, 85); max-width: 36ch;">כל קישור כאן פתוח — אפשר להיכנס ולבדוק בעצמכם.</p>
+      </div>
+      <div data-dc-tpl="81" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 22px;">
+
+        <div data-dc-tpl="82" class="scp5" style="background: rgb(255, 255, 255); border: 1px solid rgba(28, 25, 22, 0.14); border-radius: 14px; overflow: hidden; box-shadow: rgba(28, 25, 22, 0.06) 0px 1px 2px, rgba(28, 25, 22, 0.18) 0px 8px 24px -12px; display: flex; flex-direction: column; transition: transform 0.18s, box-shadow 0.18s;">
+          <div data-dc-tpl="83" style="aspect-ratio: 16 / 10; position: relative; overflow: hidden; border-bottom: 1px solid rgba(28, 25, 22, 0.14); background: linear-gradient(155deg, rgb(245, 234, 216), rgb(235, 221, 197)); color: rgb(32, 30, 29);">
+            <div data-dc-tpl="84" style="display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: rgba(32, 30, 29, 0.14);">
+              <span data-dc-tpl="85" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(32, 30, 29, 0.4);"></span>
+              <span data-dc-tpl="86" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(32, 30, 29, 0.4);"></span>
+              <span data-dc-tpl="87" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(32, 30, 29, 0.4);"></span>
+              <span data-dc-tpl="88" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.66rem; color: rgb(58, 53, 47); background: rgba(32, 30, 29, 0.08); padding: 3px 10px; border-radius: 6px; margin-inline-start: 6px; direction: ltr;">lee-nails-lod.idanvaknin45455.chatgpt.site</span>
+            </div>
+            <div data-dc-tpl="89" style="position: absolute; inset: 0px; padding: 26px 22px 18px; display: flex; flex-direction: column; justify-content: center; gap: 10px;">
+              <div data-dc-tpl="90" style="font-family: &quot;Big Shoulders Display&quot;, sans-serif; font-weight: 800; font-size: 1.9rem; line-height: 1; color: rgb(198, 113, 57);">LEE Nails</div>
+              <div data-dc-tpl="91" style="font-size: 0.88rem; opacity: 0.85; max-width: 22ch;">בניית ציפורניים · לוד · טבילה, אקריל, מניקור</div>
+              <div data-dc-tpl="92" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px;">
+                <span data-dc-tpl="93" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.66rem; padding: 4px 9px; border-radius: 999px; border: 1px solid currentcolor; opacity: 0.8;">מחירון</span>
+                <span data-dc-tpl="94" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.66rem; padding: 4px 9px; border-radius: 999px; border: 1px solid currentcolor; opacity: 0.8;">המלצות</span>
+                <span data-dc-tpl="95" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.66rem; padding: 4px 9px; border-radius: 999px; border: 1px solid currentcolor; opacity: 0.8;">וואטסאפ</span>
+              </div>
+            </div>
+          </div>
+          <div data-dc-tpl="96" style="padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 12px; flex: 1 1 0%;">
+            <div data-dc-tpl="97" style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+              <h3 data-dc-tpl="98" style="margin: 0px; font-size: 1.14rem; font-weight: 700;">LEE Nails</h3>
+              <span data-dc-tpl="99" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.72rem; color: rgb(107, 98, 85); white-space: nowrap;">אתר עסקי</span>
+            </div>
+            <p data-dc-tpl="100" style="margin: 0px; flex: 1 1 0%; font-size: 0.95rem; color: rgb(107, 98, 85);">אתר מלא לקליניקת ציפורניים בלוד: מחירון מפורט, המלצות לקוחות אמיתיות, פרטי קשר ומיקום — עיצוב עקבי ו‑RTL מלא.</p>
+            <div data-dc-tpl="101" style="display: flex; flex-wrap: wrap; gap: 7px;">
+              <span data-dc-tpl="102" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">עיצוב מערכתי</span>
+              <span data-dc-tpl="103" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">RTL</span>
+              <span data-dc-tpl="104" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">המרת לקוחות</span>
+            </div>
+            <a data-dc-tpl="105" href="https://lee-nails-lod.idanvaknin45455.chatgpt.site/" target="_blank" rel="noopener" class="scp6" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.92rem; font-weight: 600; color: rgb(31, 143, 131);">פתיחת האתר החי ←</a>
+          </div>
+        </div>
+
+        <div data-dc-tpl="106" class="scp5" style="background: rgb(255, 255, 255); border: 1px solid rgba(28, 25, 22, 0.14); border-radius: 14px; overflow: hidden; box-shadow: rgba(28, 25, 22, 0.06) 0px 1px 2px, rgba(28, 25, 22, 0.18) 0px 8px 24px -12px; display: flex; flex-direction: column; transition: transform 0.18s, box-shadow 0.18s;">
+          <div data-dc-tpl="107" style="aspect-ratio: 16 / 10; position: relative; overflow: hidden; border-bottom: 1px solid rgba(28, 25, 22, 0.14); background: linear-gradient(155deg, rgb(43, 40, 35), rgb(27, 25, 22)); color: rgb(241, 236, 226);">
+            <div data-dc-tpl="108" style="display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: rgba(0, 0, 0, 0.2);">
+              <span data-dc-tpl="109" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.55);"></span>
+              <span data-dc-tpl="110" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.55);"></span>
+              <span data-dc-tpl="111" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.55);"></span>
+              <span data-dc-tpl="112" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.66rem; color: rgba(255, 255, 255, 0.85); background: rgba(255, 255, 255, 0.12); padding: 3px 10px; border-radius: 6px; margin-inline-start: 6px; direction: ltr;">magidash-earthworks.github.io</span>
+            </div>
+            <div data-dc-tpl="113" style="position: absolute; inset: 0px; padding: 26px 22px 18px; display: flex; flex-direction: column; justify-content: center; gap: 10px;">
+              <div data-dc-tpl="114" style="font-family: &quot;Big Shoulders Display&quot;, sans-serif; font-weight: 800; font-size: 1.9rem; line-height: 1; color: rgb(232, 149, 47);">מגידש</div>
+              <div data-dc-tpl="115" style="font-size: 0.88rem; opacity: 0.85; max-width: 22ch;">עבודות עפר ותשתיות · 15+ שנות ניסיון</div>
+              <div data-dc-tpl="116" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px;">
+                <span data-dc-tpl="117" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.66rem; padding: 4px 9px; border-radius: 999px; border: 1px solid currentcolor; opacity: 0.8;">פרויקטים</span>
+                <span data-dc-tpl="119" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.66rem; padding: 4px 9px; border-radius: 999px; border: 1px solid currentcolor; opacity: 0.8;">יצירת קשר</span>
+              </div>
+            </div>
+          </div>
+          <div data-dc-tpl="120" style="padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 12px; flex: 1 1 0%;">
+            <div data-dc-tpl="121" style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+              <h3 data-dc-tpl="122" style="margin: 0px; font-size: 1.14rem; font-weight: 700;">מגידש עבודות עפר</h3>
+              <span data-dc-tpl="123" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.72rem; color: rgb(107, 98, 85); white-space: nowrap;">דף נחיתה</span>
+            </div>
+            <p data-dc-tpl="124" style="margin: 0px; flex: 1 1 0%; font-size: 0.95rem; color: rgb(107, 98, 85);">דף נחיתה לחברת עבודות עפר ותשתיות: בטון, ביוב וניקוז, חפירה ויישור ואספקת חומרי מחצבה — עם קריאה לפעולה בטלפון ובוואטסאפ.</p>
+            <div data-dc-tpl="125" style="display: flex; flex-wrap: wrap; gap: 7px;">
+              <span data-dc-tpl="126" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">B2B</span>
+              <span data-dc-tpl="127" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">לידים</span>
+              <span data-dc-tpl="128" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">תשתיות</span>
+            </div>
+            <a data-dc-tpl="129" href="https://magidash-earthworks.github.io/" target="_blank" rel="noopener" class="scp6" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.92rem; font-weight: 600; color: rgb(31, 143, 131);">פתיחת הדף החי ←</a>
+          </div>
+        </div>
+
+        <div data-dc-tpl="130" class="scp5" style="background: rgb(255, 255, 255); border: 1px solid rgba(28, 25, 22, 0.14); border-radius: 14px; overflow: hidden; box-shadow: rgba(28, 25, 22, 0.06) 0px 1px 2px, rgba(28, 25, 22, 0.18) 0px 8px 24px -12px; display: flex; flex-direction: column; transition: transform 0.18s, box-shadow 0.18s;">
+          <div data-dc-tpl="131" style="aspect-ratio: 16 / 10; background: linear-gradient(155deg, rgb(23, 21, 18), rgb(32, 28, 23)); color: rgb(241, 236, 226); padding: 22px; display: flex; flex-direction: column; justify-content: space-between; border-bottom: 1px solid rgba(28, 25, 22, 0.14);">
+            <div data-dc-tpl="132">
+              <p data-dc-tpl="133" style="margin: 0px; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(226, 145, 63);">מצגת אינטראקטיבית · 19 שקפים</p>
+              <p data-dc-tpl="134" style="margin: 8px 0px 0px; font-family: &quot;Big Shoulders Display&quot;, sans-serif; font-weight: 800; font-size: 1.7rem; line-height: 1.05;">AI שעובד<br data-dc-tpl="135">בשבילכם</p>
+            </div>
+            <div data-dc-tpl="136" style="display: flex; flex-direction: column; gap: 5px;">
+              <div data-dc-tpl="137" style="display: flex; align-items: baseline; gap: 8px; font-size: 0.78rem; color: rgba(241, 236, 226, 0.75);"><span data-dc-tpl="138" style="font-family: &quot;IBM Plex Mono&quot;, monospace; color: rgb(87, 189, 177); font-size: 0.72rem;">01</span><span data-dc-tpl="139">ההזדמנות</span></div>
+              <div data-dc-tpl="140" style="display: flex; align-items: baseline; gap: 8px; font-size: 0.78rem; color: rgba(241, 236, 226, 0.75);"><span data-dc-tpl="141" style="font-family: &quot;IBM Plex Mono&quot;, monospace; color: rgb(87, 189, 177); font-size: 0.72rem;">02</span><span data-dc-tpl="142">היתרונות</span></div>
+              <div data-dc-tpl="143" style="display: flex; align-items: baseline; gap: 8px; font-size: 0.78rem; color: rgba(241, 236, 226, 0.75);"><span data-dc-tpl="144" style="font-family: &quot;IBM Plex Mono&quot;, monospace; color: rgb(87, 189, 177); font-size: 0.72rem;">03</span><span data-dc-tpl="145">רפואה ובריאות</span></div>
+              <div data-dc-tpl="146" style="display: flex; align-items: baseline; gap: 8px; font-size: 0.78rem; color: rgba(241, 236, 226, 0.75);"><span data-dc-tpl="147" style="font-family: &quot;IBM Plex Mono&quot;, monospace; color: rgb(87, 189, 177); font-size: 0.72rem;">04</span><span data-dc-tpl="148">איך מתחילים</span></div>
+            </div>
+          </div>
+          <div data-dc-tpl="149" style="padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 12px; flex: 1 1 0%;">
+            <div data-dc-tpl="150" style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+              <h3 data-dc-tpl="151" style="margin: 0px; font-size: 1.14rem; font-weight: 700;">AI שעובד בשבילכם</h3>
+              <span data-dc-tpl="152" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.72rem; color: rgb(107, 98, 85); white-space: nowrap;">מצגת ללקוחות</span>
+            </div>
+            <p data-dc-tpl="153" style="margin: 0px; flex: 1 1 0%; font-size: 0.95rem; color: rgb(107, 98, 85);">מצגת בת 19 שקפים לעסקים ששוקלים AI: מה השתנה, ארבעה יתרונות עם נתוני לפני/אחרי, קייס מעולם הקליניקות ותוכנית ל‑4 שבועות ראשונים.</p>
+            <div data-dc-tpl="154" style="display: flex; flex-wrap: wrap; gap: 7px;">
+              <span data-dc-tpl="155" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">מצגת אינטראקטיבית</span>
+              <span data-dc-tpl="156" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">ייעוץ עסקי</span>
+              <span data-dc-tpl="157" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">קליניקות</span>
+            </div>
+            <a data-dc-tpl="158" href="https://claude.ai/code/artifact/70cc52a8-bdd0-4992-accd-6ef971ae4543" target="_blank" rel="noopener" class="scp6" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.92rem; font-weight: 600; color: rgb(31, 143, 131);">פתיחת המצגת ←</a>
+          </div>
+        </div>
+
+        <div data-dc-tpl="159" class="scp5" style="background: rgb(255, 255, 255); border: 1px solid rgba(28, 25, 22, 0.14); border-radius: 14px; overflow: hidden; box-shadow: rgba(28, 25, 22, 0.06) 0px 1px 2px, rgba(28, 25, 22, 0.18) 0px 8px 24px -12px; display: flex; flex-direction: column; transition: transform 0.18s, box-shadow 0.18s;">
+          <div data-dc-tpl="160" style="aspect-ratio: 16 / 10; background: linear-gradient(155deg, rgb(13, 61, 51), rgb(18, 63, 52)); padding: 18px; display: flex; flex-direction: column; gap: 8px; justify-content: center; border-bottom: 1px solid rgba(28, 25, 22, 0.14);">
+            <p data-dc-tpl="161" style="margin: 0px 0px 4px; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(127, 227, 201);">רותי · סוכנת וואטסאפ</p>
+            <div data-dc-tpl="162" style="align-self: flex-start; max-width: 82%; padding: 9px 13px; border-radius: 14px; border-end-start-radius: 3px; background: rgba(255, 255, 255, 0.94); color: rgb(28, 25, 22); font-size: 0.82rem; line-height: 1.4;">היי, אפשר לקבוע תור?</div>
+            <div data-dc-tpl="163" style="align-self: flex-end; max-width: 82%; padding: 9px 13px; border-radius: 14px; border-end-end-radius: 3px; background: rgb(37, 211, 102); color: rgb(4, 34, 15); font-size: 0.82rem; line-height: 1.4;">בטח! יש פנוי שלישי 14:00 או רביעי 10:00 — מה מתאים לך?</div>
+          </div>
+          <div data-dc-tpl="164" style="padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 12px; flex: 1 1 0%;">
+            <div data-dc-tpl="165" style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+              <h3 data-dc-tpl="166" style="margin: 0px; font-size: 1.14rem; font-weight: 700;">סוכן וואטסאפ לקליניקות</h3>
+              <span data-dc-tpl="167" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.72rem; color: rgb(107, 98, 85); white-space: nowrap;">סוכן AI</span>
+            </div>
+            <p data-dc-tpl="168" style="margin: 0px; flex: 1 1 0%; font-size: 0.95rem; color: rgb(107, 98, 85);">"רותי" מנהלת את התקשורת בין הקליניקה למטופלים: קביעת תורים מול Google Calendar, ביטול ושינוי, רשימת המתנה, תזכורות אוטומטיות וזיהוי מצבי חירום להעברה לבן אדם.</p>
+            <div data-dc-tpl="169" style="display: flex; flex-wrap: wrap; gap: 7px;">
+              <span data-dc-tpl="170" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">Claude API</span>
+              <span data-dc-tpl="171" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">Google Calendar</span>
+              <span data-dc-tpl="172" style="font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; background: rgb(239, 233, 222); color: rgb(107, 98, 85);">Twilio WhatsApp</span>
+            </div>
+            <a data-dc-tpl="173" href="#demo" class="scp6" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.92rem; font-weight: 600; color: rgb(31, 143, 131);">לצפייה בדמו החי ←</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section data-dc-tpl="174" id="how" class="reveal" style="padding: 0px 0px 58px;">
+      <div data-dc-tpl="175" style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 30px;">
+        <h2 data-dc-tpl="176" style="margin: 0px; font-family: &quot;Big Shoulders Display&quot;, sans-serif; font-weight: 800; font-size: 1.95rem;">איך זה עובד</h2>
+        <p data-dc-tpl="177" style="margin: 0px; font-size: 0.92rem; color: rgb(107, 98, 85); max-width: 36ch;">שיחה, אפיון קצר, ואז עולים לאוויר — בלי פרויקט שנמשך חצי שנה.</p>
+      </div>
+      <div data-dc-tpl="178" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px;">
+        <div data-dc-tpl="179" style="background: rgb(239, 233, 222); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 8px;">
+          <span data-dc-tpl="180" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(31, 143, 131);">שלב 1 · שיחה</span>
+          <h3 data-dc-tpl="181" style="margin: 0px; font-size: 1.15rem;">מבינים איפה נשרף הזמן</h3>
+          <p data-dc-tpl="182" style="margin: 0px; font-size: 0.94rem; color: rgb(107, 98, 85);">20 דקות שיחה על התפעול היומיומי: מי עונה ללקוחות, מה מוקלד ביד, ואיפה נופלים לידים.</p>
+        </div>
+        <div data-dc-tpl="183" style="background: rgb(239, 233, 222); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 8px;">
+          <span data-dc-tpl="184" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(31, 143, 131);">שלב 2 · בנייה</span>
+          <h3 data-dc-tpl="185" style="margin: 0px; font-size: 1.15rem;">גרסה ראשונה תוך שבוע</h3>
+          <p data-dc-tpl="186" style="margin: 0px; font-size: 0.94rem; color: rgb(107, 98, 85);">אתר, סוכן או אוטומציה שכבר אפשר ללחוץ עליהם — ומשם מדייקים יחד לפי מה שקורה בפועל.</p>
+        </div>
+        <div data-dc-tpl="187" style="background: rgb(239, 233, 222); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 8px;">
+          <span data-dc-tpl="188" style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(31, 143, 131);">שלב 3 · אוויר</span>
+          <h3 data-dc-tpl="189" style="margin: 0px; font-size: 1.15rem;">עולה לאוויר ונשאר בליווי</h3>
+          <p data-dc-tpl="190" style="margin: 0px; font-size: 0.94rem; color: rgb(107, 98, 85);">פרסום, חיבור לדומיין ולוואטסאפ, ותיקונים קטנים אחרי שהלקוחות באמת מתחילים להשתמש.</p>
+        </div>
+      </div>
+    </section>
+
+    <section data-dc-tpl="191" id="contact" class="reveal" style="border-top: 1px solid rgba(28, 25, 22, 0.08); padding: 44px 0px 60px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
+      <div data-dc-tpl="192">
+        <h2 data-dc-tpl="193" style="margin: 0px 0px 6px; font-family: &quot;Big Shoulders Display&quot;, sans-serif; font-weight: 800; font-size: 1.8rem;">בואו נדבר</h2>
+        <p data-dc-tpl="194" style="margin: 0px; color: rgb(107, 98, 85);">ספרו לי במשפט אחד מה תוקע אתכם — אחזור עם הצעה תוך 24 שעות.</p>
+      </div>
+      <div data-dc-tpl="195" style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a data-dc-tpl="196" href="https://wa.me/972500000000" target="_blank" rel="noopener" class="scp1" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 10px; background: rgb(201, 112, 31); color: rgb(255, 255, 255); font-weight: 700;">וואטסאפ</a>
+        <a data-dc-tpl="197" href="mailto:idanvaknin45455@gmail.com" class="scp2" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 10px; border: 1px solid rgba(28, 25, 22, 0.16); background: rgb(255, 255, 255); color: rgb(28, 25, 22); font-weight: 600;">idanvaknin45455@gmail.com</a>
+      </div>
+      <p data-dc-tpl="198" style="width: 100%; margin: 8px 0px 0px; font-size: 0.8rem; color: rgb(107, 98, 85);">עידן וקנין · הטמעת AI, אוטומציות ובניית סוכנים · ישראל</p>
+    </section>
+
+  </main></div></div></div>
+
+<script>
+(function () {
+  // header shadow on scroll
+  var header = document.querySelector('header');
+  if (header) {
+    var onScroll = function () {
+      header.classList.toggle('is-scrolled', window.scrollY > 8);
+    };
+    document.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // scroll-reveal sections
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealEls.length) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  // count-up stat numbers
+  var statEls = document.querySelectorAll('.stat-num');
+  if (statEls.length) {
+    var animateCount = function (el) {
+      var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+      var suffix = el.getAttribute('data-suffix') || '';
+      var start = null;
+      var duration = 1100;
+      function step(ts) {
+        if (!start) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var value = Math.round(eased * target);
+        el.textContent = value + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    };
+    if ('IntersectionObserver' in window) {
+      var statIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animateCount(entry.target);
+            statIo.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.6 });
+      statEls.forEach(function (el) { statIo.observe(el); });
+    } else {
+      statEls.forEach(function (el) { el.textContent = el.getAttribute('data-count') + (el.getAttribute('data-suffix') || ''); });
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
