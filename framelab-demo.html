@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>הדגמת FrameLab</title>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700;900&family=Heebo:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a headline, one stage (video + tool panel) that plays a 22 second loop, and three step chips that jump between scenes. */
+:root {
+  --bg: #eef1f4;
+  --surface: #ffffff;
+  --ink: #12202b;
+  --muted: #5a6a77;
+  --line: #d3dae0;
+  --accent: #e8542c;       /* playhead, active step */
+  --teal: #0b7a85;         /* Hebrew text on light surfaces */
+  --teal-soft: #d8eef0;
+  --stage: #0d1a24;        /* video frame */
+  --stage-2: #1b3345;
+  --cap-ink: #ffffff;
+  --warn-soft: #fde7df;
+  --font-display: "Frank Ruhl Libre", "David Libre", Georgia, serif;
+  --font-body: "Heebo", "Arial Hebrew", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1820; --surface: #16232d; --ink: #e8eef2; --muted: #93a4b0; --line: #2a3b48;
+    --accent: #ff7a50; --teal: #5cc7d1; --teal-soft: #17353b; --stage: #08121a; --stage-2: #173043; --warn-soft: #3a2118;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1820; --surface: #16232d; --ink: #e8eef2; --muted: #93a4b0; --line: #2a3b48;
+  --accent: #ff7a50; --teal: #5cc7d1; --teal-soft: #17353b; --stage: #08121a; --stage-2: #173043; --warn-soft: #3a2118;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 40px; }
+.wrap { max-width: 1040px; margin: 0 auto; display: grid; gap: 22px; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; direction: ltr; text-align: right; }
+h1 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 5.2vw, 52px); line-height: 1.1; margin: 0 0 12px; text-wrap: balance; }
+.lede { margin: 0; max-width: 62ch; color: var(--muted); font-size: 17px; }
+
+.steps { display: flex; flex-wrap: wrap; gap: 8px; }
+.step { appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-weight: 500; font-size: 14px;
+  padding: 9px 16px; border-radius: 999px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+.step b { font-family: var(--font-mono); font-weight: 500; color: var(--muted); font-size: 12px; }
+.step[aria-current="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent); }
+.step[aria-current="true"] b { color: var(--accent); }
+.step:focus-visible, .ctl:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.stage { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 820px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+
+.video { container-type: inline-size; position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden;
+  background: radial-gradient(120% 90% at 30% 20%, var(--stage-2), var(--stage)); border: 1px solid var(--line); }
+.video svg.person { position: absolute; inset: auto 0 0 8%; width: 34%; height: 78%; }
+.video .badge { position: absolute; top: 3.2cqw; inset-inline-start: 3.2cqw; font-family: var(--font-mono); font-size: 2.1cqw; color: #cfe0ea;
+  background: rgba(255,255,255,.1); padding: .5cqw 1.6cqw; border-radius: 99px; direction: ltr; }
+.video .src { position: absolute; top: 3.2cqw; inset-inline-end: 3.2cqw; max-width: 52%; font-size: 2.3cqw; line-height: 1.35; color: #b9cbd6; direction: ltr; text-align: left; min-height: 1.4em; }
+.cap { position: absolute; inset-inline: 8%; bottom: 5.5cqw; text-align: center; font-weight: 700; font-size: 3.5cqw; line-height: 1.3; color: var(--cap-ink);
+  text-shadow: 0 0 .5cqw #000, 0 .2cqw .6cqw #000, 0 0 1.2cqw #000; min-height: 2.6em; display: flex; align-items: flex-end; justify-content: center; }
+.cap span { display: block; white-space: pre-line; }
+
+.wave { display: flex; align-items: center; gap: 3px; height: 46px; margin-top: 12px; direction: ltr; }
+.wave i { flex: 1; min-width: 2px; background: var(--muted); border-radius: 2px; height: 10%; opacity: .55; }
+.wave i.on { background: var(--teal); opacity: 1; }
+.timeline { position: relative; height: 34px; margin-top: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; direction: ltr; }
+.timeline .cue { position: absolute; top: 5px; bottom: 5px; background: var(--teal-soft); border: 1px solid var(--teal); border-radius: 5px; opacity: 0; transition: opacity .3s; }
+.timeline .cue.show { opacity: 1; }
+.rec { font-size: 12px; font-weight: 700; border-radius: 99px; padding: 1px 9px; margin-inline-start: 6px; background: var(--teal-soft); color: var(--teal); }
+.rec.cut { background: var(--warn-soft); color: var(--accent); }
+.chap { display: grid; grid-template-columns: 52px minmax(0,1fr); gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); }
+.chap.on { background: color-mix(in srgb, var(--teal-soft) 60%, transparent); }
+.chap time { font-family: var(--font-mono); font-size: 12px; color: var(--muted); direction: ltr; text-align: left; padding-top: 3px; }
+.chap b { font-weight: 500; }
+.stp { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); color: var(--muted); }
+.stp.done { color: var(--ink); }
+.stp .dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line); flex: none; }
+.stp.done .dot { background: var(--teal); border-color: var(--teal); }
+.stp.run .dot { border-color: var(--accent); }
+.bonus { display: inline-block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; color: var(--accent); background: var(--warn-soft); padding: 2px 10px; border-radius: 99px; margin-bottom: 8px; }
+.sumtxt { margin: 0 0 12px; font-size: 15px; }
+.timeline .cue.live { background: var(--teal); }
+.timeline .head { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--accent); }
+.tc { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 6px; direction: ltr; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; min-height: 330px; }
+.panel h2 { font-family: var(--font-display); font-size: 22px; margin: 0 0 4px; }
+.panel p.sub { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+.row { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 12px; padding: 11px 0; border-top: 1px solid var(--line); }
+.row time { font-family: var(--font-mono); font-size: 12px; color: var(--muted); direction: ltr; text-align: left; padding-top: 4px; }
+.row .en { direction: ltr; text-align: left; font-size: 12.5px; color: var(--muted); margin: 0 0 4px; }
+.row .he { margin: 0; font-size: 16px; font-weight: 500; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; min-height: 40px; }
+.row.focus .he { border-color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 22%, transparent); }
+.row.fixed .he { background: var(--teal-soft); border-color: var(--teal); }
+.caret::after { content: ""; display: inline-block; width: 2px; height: 1.05em; background: var(--accent); vertical-align: -2px; margin-inline-start: 2px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.tag { display: inline-block; font-size: 12px; font-weight: 700; color: var(--accent); background: var(--warn-soft); border-radius: 99px; padding: 1px 9px; margin-inline-start: 6px; }
+
+.bar { height: 10px; background: var(--line); border-radius: 99px; overflow: hidden; margin: 16px 0 8px; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--teal); }
+.files { display: grid; gap: 10px; margin-top: 16px; }
+.file { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font-weight: 500; }
+.file small { font-family: var(--font-mono); color: var(--muted); direction: ltr; }
+.file.ready { border-color: var(--teal); background: var(--teal-soft); }
+
+.controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.ctl { appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-size: 14px; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+@media (prefers-reduced-motion: reduce) { .caret::after { animation: none; } }
+.cta { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.cta p { margin: 0; font-weight: 500; }
+.cta a { text-decoration: none; font-weight: 700; padding: 10px 20px; border-radius: 10px; background: var(--accent); color: var(--surface); }
+.cta a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<style>html{color-scheme:light dark}body{margin:0}</style>
+</head>
+<body>
+<div class="wrap" dir="rtl" lang="he">
+  <header>
+    <p class="eyebrow">FrameLab · Video to content</p>
+    <h1>מעלים סרטון אחד. מקבלים אותו מפורק</h1>
+    <p class="lede">תמלול, פרקים עם המלצה לכל אחד, סיכום בעברית ובקרת איכות עם הצעות פעולה. ובסוף, כבונוס, כתוביות בעברית שעומדות בקצב הדובר.</p>
+  </header>
+
+  <nav class="steps" aria-label="שלבי ההדגמה">
+    <button class="step" type="button" data-scene="0"><b>01</b> העלאה וניתוח</button>
+    <button class="step" type="button" data-scene="1"><b>02</b> פרקים וסיכום</button>
+    <button class="step" type="button" data-scene="2"><b>03</b> בקרת איכות</button>
+    <button class="step" type="button" data-scene="3"><b>04</b> בונוס: כתוביות</button>
+  </nav>
+
+  <section class="stage" aria-label="הדגמה מונפשת">
+    <div>
+      <div class="video" id="video">
+        <svg class="person" viewBox="0 0 200 260" aria-hidden="true"><circle cx="100" cy="78" r="42" fill="#2e4b61"/><path d="M14 260c0-62 36-98 86-98s86 36 86 98z" fill="#264054"/></svg>
+        <span class="badge" id="badge">00:00</span>
+        <div class="src" id="src"></div>
+        <div class="cap" aria-live="off"><span id="cap"></span></div>
+      </div>
+      <div class="wave" id="wave" aria-hidden="true"></div>
+      <div class="timeline" id="timeline" aria-hidden="true"><div class="head" id="head"></div></div>
+      <div class="tc" aria-hidden="true"><span>00:00</span><span>25:00</span></div>
+    </div>
+    <div class="panel" id="panel" aria-live="polite"></div>
+  </section>
+
+  <div class="controls">
+    <button class="ctl" type="button" id="toggle">השהיה</button>
+    <button class="ctl" type="button" id="restart">מההתחלה</button>
+    <p class="note">הדגמה מונפשת עם תוכן לדוגמה, להמחשה בלבד. אין בה סרטון או דובר אמיתיים. הצעות הפעולה הן המלצות, והמשתמש מחליט מה לבצע.</p>
+  </div>
+  <div class="cta"><p>רוצים לנסות על סרטון משלכם? הפיילוט פתוח למספר מוגבל של משתתפים.</p><a href="https://wa.me/972508822380?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%99%D7%93%D7%9F%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%94%D7%93%D7%92%D7%9E%D7%94%20%D7%A9%D7%9C%20FrameLab%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%94%D7%A6%D7%98%D7%A8%D7%A3%20%D7%9C%D7%A4%D7%99%D7%99%D7%9C%D7%95%D7%98" target="_blank" rel="noopener">דברו איתי בוואטסאפ</a></div>
+</div>
+
+<script>
+(function () {
+  var LEN = 25 * 60; // illustrative 25 minute lecture
+  var CH = [
+    { s: 0, e: 150, t: "פתיחה וסקירת הנושא", rec: "keep" },
+    { s: 150, e: 540, t: "בניית מבנה הדף", rec: "highlight" },
+    { s: 540, e: 960, t: "כתיבת הכותרת עם Claude", rec: "highlight" },
+    { s: 960, e: 1260, t: "סיפור צדדי על לקוח קודם", rec: "tighten" },
+    { s: 1260, e: 1500, t: "סיכום ושאלות", rec: "keep" }
+  ];
+  var REC = { keep: ["להשאיר", ""], tighten: ["לקצר", "cut"], highlight: ["להבליט", ""] };
+  var FINDINGS = [
+    "שקט ארוך של 6 שניות בדקה 17:40",
+    "רמת קול נמוכה בקטע שבין 09:10 ל-09:50",
+    "הרזולוציה בחלק מהשקפים נמוכה"
+  ];
+  var ACTIONS = ["חיתוך השקט בדקה 17:40", "קטע קצר לרשתות מפרק \"בניית מבנה הדף\"", "בדיקת קול בקטע 09:10 עד 09:50"];
+  var SUMMARY = "ההרצאה מדגימה בניית דף נחיתה בפחות משעה: מגדירים מבנה, כותבים כותרת ברורה בעזרת Claude, ומסיימים בבדיקה מהירה לפני פרסום.";
+  var CUES = [
+    { s: 0, e: 3, en: "Ask Claude to draft the headline.", he: "בקש מהענן לנסח את הכותרת.", fixed: "בקש מ-Claude לנסח את הכותרת." }
+  ];
+  var S = [0, 6.5, 13.5, 20.5], TOTAL = 29;
+
+  var el = function (id) { return document.getElementById(id); };
+  var cap = el("cap"), src = el("src"), badge = el("badge"), head = el("head"), panel = el("panel"), wave = el("wave"), timeline = el("timeline");
+  var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var bars = [];
+  for (var i = 0; i < 56; i++) { var b = document.createElement("i"); wave.appendChild(b); bars.push(b); }
+  var cueEls = CH.map(function (c) {
+    var d = document.createElement("div"); d.className = "cue";
+    d.style.left = (c.s / LEN * 100) + "%"; d.style.width = ((c.e - c.s) / LEN * 100 - 0.4) + "%";
+    timeline.insertBefore(d, head); return d;
+  });
+
+  function mmss(sec) { sec = Math.floor(sec); var m = Math.floor(sec / 60), r = sec % 60; return (m < 10 ? "0" : "") + m + ":" + (r < 10 ? "0" : "") + r; }
+  function sceneOf(t) { return t >= S[3] ? 3 : t >= S[2] ? 2 : t >= S[1] ? 1 : 0; }
+
+  function chapRow(i, on) {
+    var c = CH[i], r = REC[c.rec];
+    return '<div class="chap ' + (on ? "on" : "") + '"><time>' + mmss(c.s) + '</time><div><b>' + c.t + '</b><span class="rec ' + r[1] + '">' + r[0] + '</span></div></div>';
+  }
+  function step(label, state) { return '<div class="stp ' + state + '"><span class="dot"></span>' + label + '</div>'; }
+
+  var lastKey = "";
+  function render(t) {
+    var scene = sceneOf(t), local = t - S[scene], html, vt = 0, showChap = 0, activeCh = -1, capText = "", srcText = "";
+
+    if (scene === 0) {
+      var stages = ["קליטת הסרטון", "תמלול", "ניתוח AI", "תוצרים"];
+      var done = Math.min(4, Math.floor(local / 1.5));
+      html = '<h2>העלאה וניתוח</h2><p class="sub">קובץ אחד נכנס. כל השאר קורה לבד.</p>' +
+        stages.map(function (s, i) { return step(s, i < done ? "done" : i === done ? "run" : ""); }).join("");
+      vt = Math.min(LEN, local / 6 * LEN * 0.2);
+      showChap = done >= 3 ? CH.length : 0;
+    } else if (scene === 1) {
+      activeCh = Math.min(CH.length - 1, Math.floor(local / 1.2));
+      showChap = CH.length;
+      vt = CH[activeCh].s + 20;
+      html = '<h2>פרקים וסיכום</h2><p class="sub">לכל פרק יש המלצה: להשאיר, לקצר או להבליט.</p>' +
+        CH.map(function (c, i) { return chapRow(i, i === activeCh); }).join("") +
+        (local > 5.2 ? '<p class="sumtxt" style="margin-top:12px"><b>סיכום בעברית:</b> ' + SUMMARY + '</p>' : "");
+    } else if (scene === 2) {
+      showChap = CH.length;
+      vt = 17 * 60 + 40;
+      var nF = Math.min(3, Math.floor(local / 1.0) + 1), nA = Math.max(0, Math.min(3, Math.floor((local - 3) / 1.0) + 1));
+      html = '<h2>בקרת איכות והצעות פעולה</h2><p class="sub">מה כדאי לתקן לפני שמשקיעים בעריכה. ההצעות הן המלצות, לא פעולות אוטומטיות.</p>' +
+        FINDINGS.slice(0, nF).map(function (f) { return '<div class="chap"><time>בדיקה</time><div>' + f + '</div></div>'; }).join("") +
+        (nA ? '<p class="sub" style="margin:14px 0 4px"><b>הצעות:</b></p>' + ACTIONS.slice(0, nA).map(function (a) { return '<div class="chap"><time>הצעה</time><div>' + a + '</div></div>'; }).join("") : "");
+    } else {
+      showChap = CH.length;
+      vt = 10 * 60 + 5;
+      var cue = CUES[0], fixedNow = local > 3.6;
+      capText = fixedNow ? cue.fixed : cue.he; srcText = cue.en;
+      var fixing = local > 1.2 && local <= 3.6;
+      var txt = local <= 1.2 ? cue.he : fixing ? cue.fixed.slice(0, Math.floor((local - 1.2) / 2.4 * cue.fixed.length)) + '<span class="caret"></span>' : cue.fixed;
+      var p = Math.max(0, Math.min(1, (local - 4.6) / 3));
+      html = '<span class="bonus">BONUS</span><h2>כתוביות בעברית</h2><p class="sub">בסוף התהליך אפשר גם לצרוב כתוביות בשתי שורות בתחתית, מתוזמנות לפי המילים. שורה שלא מתאימה מתקנים לפני הייצוא.</p>' +
+        '<div class="row ' + (fixedNow ? "fixed" : "focus") + '"><time>10:05</time><div><p class="en">' + cue.en + '</p><p class="he">' + txt + '</p></div></div>' +
+        (local > 4.4 ? '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + Math.round(p * 100) + '"><i style="width:' + Math.round(p * 100) + '%"></i></div><div class="sub" style="margin:0">' + (p >= 1 ? "הווידאו עם הכתוביות מוכן (MP4 ו-SRT)" : "צורב כתוביות... " + Math.round(p * 100) + "%") + '</div>' : "");
+    }
+
+    cap.textContent = capText; src.textContent = srcText;
+    badge.textContent = mmss(vt);
+    head.style.left = (vt / LEN * 100) + "%";
+    cueEls.forEach(function (d, i) { d.classList.toggle("show", i < showChap); d.classList.toggle("live", i === activeCh); });
+    var live = scene === 3 && local < 4.4;
+    for (var i = 0; i < bars.length; i++) {
+      var amp = live ? (0.25 + 0.75 * Math.abs(Math.sin(t * 7 + i * 0.9) * Math.cos(t * 3.1 + i * 0.37))) : 0.12;
+      bars[i].style.height = Math.round(amp * 100) + "%";
+      bars[i].classList.toggle("on", live);
+    }
+    steps.forEach(function (s, i) { s.setAttribute("aria-current", i === scene ? "true" : "false"); });
+    var key = scene + "|" + html;
+    if (key !== lastKey) { panel.innerHTML = html; lastKey = key; }
+  }
+
+  var t = 0.5, playing = !reduce, last = null;
+  function frame(now) {
+    if (last === null) last = now;
+    var dt = Math.min(0.1, (now - last) / 1000); last = now;
+    if (playing) { t += dt; if (t >= TOTAL) t = 0; render(t); }
+    requestAnimationFrame(frame);
+  }
+  function setPlaying(v) { playing = v; el("toggle").textContent = v ? "השהיה" : "הפעלה"; }
+  el("toggle").addEventListener("click", function () { setPlaying(!playing); });
+  el("restart").addEventListener("click", function () { t = 0; render(t); setPlaying(true); });
+  steps.forEach(function (s) { s.addEventListener("click", function () { t = S[Number(s.dataset.scene)] + 0.05; render(t); }); });
+  setPlaying(playing);
+  if (reduce) t = S[1] + 6.2;
+  render(t);
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

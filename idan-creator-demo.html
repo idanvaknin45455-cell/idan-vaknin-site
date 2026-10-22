@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>הדגמת Idan Creator</title>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700;900&family=Heebo:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Idan Creator demo: 3 scenes (research, agents write, approve and publish) in a ~24s loop. */
+:root {
+  --bg: #f1efe9; --surface: #ffffff; --ink: #1c1b19; --muted: #66625a; --line: #d9d4c8;
+  --accent: #1f7a4d; --accent-soft: #dcefe4; --hot: #c4501b; --hot-soft: #f8e5d9; --night: #16221b;
+  --font-display: "Frank Ruhl Libre", "David Libre", Georgia, serif;
+  --font-body: "Heebo", "Arial Hebrew", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg:#121714; --surface:#1a221d; --ink:#ece9e1; --muted:#a39f94; --line:#2d3830; --accent:#5ccf94; --accent-soft:#1b3a2a; --hot:#ff9a63; --hot-soft:#3a251a; --night:#0c120e; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg:#121714; --surface:#1a221d; --ink:#ece9e1; --muted:#a39f94; --line:#2d3830; --accent:#5ccf94; --accent-soft:#1b3a2a; --hot:#ff9a63; --hot-soft:#3a251a; --night:#0c120e; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 40px; }
+.wrap { max-width: 1040px; margin: 0 auto; display: grid; gap: 22px; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; direction: ltr; text-align: right; }
+h1 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 5.2vw, 52px); line-height: 1.1; margin: 0 0 12px; text-wrap: balance; }
+.lede { margin: 0; max-width: 62ch; color: var(--muted); font-size: 17px; }
+.steps { display: flex; flex-wrap: wrap; gap: 8px; }
+.step { appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-weight: 500; font-size: 14px; padding: 9px 16px; border-radius: 999px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+.step b { font-family: var(--font-mono); font-weight: 500; color: var(--muted); font-size: 12px; }
+.step[aria-current="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent); }
+.step[aria-current="true"] b { color: var(--accent); }
+.step:focus-visible, .ctl:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 820px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.agents { background: var(--night); border-radius: 14px; padding: 18px; color: #e7efe9; min-height: 330px; display: grid; gap: 10px; align-content: start; }
+.agent { display: grid; grid-template-columns: 34px minmax(0,1fr) auto; gap: 12px; align-items: center; padding: 10px 12px; border: 1px solid #2d4337; border-radius: 10px; opacity: .55; transition: opacity .3s, border-color .3s; }
+.agent.on { opacity: 1; border-color: #5ccf94; background: rgba(92,207,148,.08); }
+.agent.done { opacity: .95; }
+.agent i { width: 34px; height: 34px; border-radius: 50%; background: #234233; display: grid; place-items: center; font-style: normal; font-family: var(--font-mono); font-size: 13px; color: #8fe0b5; }
+.agent b { font-weight: 500; display: block; }
+.agent small { color: #9db3a5; font-size: 12.5px; }
+.agent span { font-family: var(--font-mono); font-size: 11px; color: #8fe0b5; direction: ltr; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; min-height: 330px; }
+.panel h2 { font-family: var(--font-display); font-size: 22px; margin: 0 0 4px; }
+.panel p.sub { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+.row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); align-items: center; }
+.row small { color: var(--muted); display: block; font-size: 12.5px; }
+.score { font-family: var(--font-mono); font-weight: 500; font-size: 14px; padding: 2px 10px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); direction: ltr; }
+.score.low { background: var(--line); color: var(--muted); }
+.post { border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-top: 8px; font-size: 15px; }
+.post .meta { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-bottom: 6px; letter-spacing: .06em; }
+.tag { display: inline-block; font-size: 12px; font-weight: 700; color: var(--hot); background: var(--hot-soft); border-radius: 99px; padding: 1px 9px; margin-inline-start: 6px; }
+.btn { display: inline-block; font-weight: 700; font-size: 14px; padding: 8px 16px; border-radius: 8px; background: var(--accent); color: var(--surface); margin-inline-end: 8px; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.chan { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.chip { border: 1px solid var(--line); border-radius: 99px; padding: 4px 14px; font-size: 14px; }
+.chip.ok { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+.caret::after { content: ""; display: inline-block; width: 2px; height: 1.05em; background: var(--hot); vertical-align: -2px; margin-inline-start: 2px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.ctl { appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-size: 14px; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+@media (prefers-reduced-motion: reduce) { .caret::after { animation: none; } }
+.cta { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.cta p { margin: 0; font-weight: 500; }
+.cta a { text-decoration: none; font-weight: 700; padding: 10px 20px; border-radius: 10px; background: var(--accent); color: var(--surface); }
+.cta a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+</style>
+<style>html{color-scheme:light dark}body{margin:0}</style>
+</head>
+<body>
+<div class="wrap" dir="rtl" lang="he">
+  <header>
+    <p class="eyebrow">Idan Creator · AI marketing</p>
+    <h1>תוכן שיווקי בקול שלך, בלי לשבת על זה</h1>
+    <p class="lede">צוות סוכנים סורק מה קורה בתחום, מציע נושאים, כותב פוסט בסגנון שלך ובודק אותו. אתה מאשר, והוא מתפרסם בפייסבוק ובאינסטגרם.</p>
+  </header>
+  <nav class="steps" aria-label="שלבי ההדגמה">
+    <button class="step" type="button" data-scene="0"><b>01</b> מחקר נושאים</button>
+    <button class="step" type="button" data-scene="1"><b>02</b> כתיבה ובדיקה</button>
+    <button class="step" type="button" data-scene="2"><b>03</b> אישור ופרסום</button>
+  </nav>
+  <section class="stage" aria-label="הדגמה מונפשת">
+    <div class="agents" id="agents" aria-hidden="true"></div>
+    <div class="panel" id="panel" aria-live="polite"></div>
+  </section>
+  <div class="controls">
+    <button class="ctl" type="button" id="toggle">השהיה</button>
+    <button class="ctl" type="button" id="restart">מההתחלה</button>
+    <p class="note">הדגמה מונפשת עם תוכן לדוגמה, להמחשה בלבד. שום פוסט כאן לא מתפרסם בפועל, ובמערכת האמיתית שום דבר לא יוצא בלי אישור שלך.</p>
+  </div>
+  <div class="cta"><p>רוצים תוכן שיווקי בקול שלכם? נשמח להציג את המערכת על העסק שלכם.</p><a href="https://wa.me/972508822380?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%99%D7%93%D7%9F%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%94%D7%93%D7%92%D7%9E%D7%94%20%D7%A9%D7%9C%20Idan%20Creator%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%95%D7%93" target="_blank" rel="noopener">דברו איתי בוואטסאפ</a></div>
+</div>
+<script>
+(function () {
+  var AG = [
+    { n: "1", t: "סוכן מחקר", d: "סורק מקורות בתחום" },
+    { n: "2", t: "סוכן כתיבה", d: "כותב בקול שלך" },
+    { n: "3", t: "סוכן ביקורת", d: "בודק לפני שמגיע אליך" },
+    { n: "4", t: "סוכן פרסום", d: "מפרסם אחרי אישור" }
+  ];
+  var TOPICS = [
+    { t: "אוטומציה בוואטסאפ לקליניקות", s: 92, src: "n8n Blog" },
+    { t: "מה משתנה ב-SEO עם חיפוש בינה מלאכותית", s: 81, src: "Search Engine Journal" },
+    { t: "איך מחזירים לידים ישנים לשיחה", s: 74, src: "HubSpot" },
+    { t: "כלי חדש לעיצוב דפי נחיתה", s: 41, src: "Product Hunt" }
+  ];
+  var POST = "קליניקה שמקבלת 40 פניות בשבוע בוואטסאפ לא צריכה עוד מזכירה. היא צריכה סוכן שעונה בשניות, קובע תורים ומעביר אליה רק מה שבאמת דורש אותה. מה היית רוצה שיעשה אצלך?";
+  var CHECKS = ["הטון מתאים לסגנון", "אין הבטחות שאי אפשר לעמוד בהן", "יש קריאה לפעולה אחת"];
+  var S = [0, 7, 15.5], TOTAL = 24;
+  var el = function (id) { return document.getElementById(id); };
+  var agents = el("agents"), panel = el("panel");
+  var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function sceneOf(t) { return t >= S[2] ? 2 : t >= S[1] ? 1 : 0; }
+  var lastKey = "";
+  function render(t) {
+    var scene = sceneOf(t), local = t - S[scene], html, active, state = ["", "", "", ""], status = ["", "", "", ""];
+    if (scene === 0) {
+      active = 0; var n = Math.min(4, Math.floor(local / 1.4) + 1);
+      status[0] = "14 מקורות";
+      html = '<h2>מחקר נושאים</h2><p class="sub">הסוכן מדרג מה רלוונטי לעסק שלך ומה סתם רעש.</p>' +
+        TOPICS.slice(0, n).map(function (x) { return '<div class="row"><div>' + x.t + '<small>' + x.src + '</small></div><span class="score ' + (x.s < 50 ? "low" : "") + '">' + x.s + '/100</span></div>'; }).join("");
+    } else if (scene === 1) {
+      var typing = local < 4.2, shown = typing ? POST.slice(0, Math.floor(local / 4.2 * POST.length)) : POST;
+      active = typing ? 1 : 2; state[0] = "done"; if (!typing) state[1] = "done";
+      status[1] = typing ? "כותב..." : "מוכן"; status[2] = typing ? "" : "בודק...";
+      var nc = typing ? 0 : Math.min(3, Math.floor((local - 4.2) / 0.9) + 1);
+      html = '<h2>כתיבה ובדיקה</h2><p class="sub">נושא נבחר: אוטומציה בוואטסאפ לקליניקות</p><div class="post"><div class="meta">טיוטה לפייסבוק ולאינסטגרם</div>' + shown + (typing ? '<span class="caret"></span>' : "") + '</div>' +
+        CHECKS.slice(0, nc).map(function (c) { return '<div class="row"><div>' + c + '</div><span class="score">עבר</span></div>'; }).join("");
+    } else {
+      state = ["done", "done", "done", ""]; active = 3;
+      var approved = local > 2.6, sent = local > 4.4;
+      status[3] = sent ? "פורסם" : approved ? "מפרסם..." : "ממתין לך";
+      html = '<h2>אישור ופרסום</h2><p class="sub">שום דבר לא יוצא בלי שאתה מאשר. אפשר לערוך את הטקסט לפני.</p><div class="post"><div class="meta">מוכן לפרסום' + (approved ? "" : '<span class="tag">ממתין לאישור</span>') + '</div>' + POST + '</div>' +
+        '<div style="margin-top:12px"><span class="btn">' + (approved ? "אושר" : "אישור ופרסום") + '</span><span class="btn ghost">עריכה</span></div>' +
+        '<div class="chan"><span class="chip ' + (sent ? "ok" : "") + '">פייסבוק' + (sent ? " ✓" : "") + '</span><span class="chip ' + (sent ? "ok" : "") + '">אינסטגרם' + (sent ? " ✓" : "") + '</span></div>';
+    }
+    agents.innerHTML = AG.map(function (a, i) {
+      return '<div class="agent ' + (i === active ? "on " : "") + (state[i] || "") + '"><i>' + a.n + '</i><div><b>' + a.t + '</b><small>' + a.d + '</small></div><span>' + status[i] + '</span></div>';
+    }).join("");
+    steps.forEach(function (s, i) { s.setAttribute("aria-current", i === scene ? "true" : "false"); });
+    var key = scene + "|" + html;
+    if (key !== lastKey) { panel.innerHTML = html; lastKey = key; }
+  }
+  var t = 0.5, playing = !reduce, last = null;
+  function frame(now) { if (last === null) last = now; var dt = Math.min(0.1, (now - last) / 1000); last = now; if (playing) { t += dt; if (t >= TOTAL) t = 0; render(t); } requestAnimationFrame(frame); }
+  function setPlaying(v) { playing = v; el("toggle").textContent = v ? "השהיה" : "הפעלה"; }
+  el("toggle").addEventListener("click", function () { setPlaying(!playing); });
+  el("restart").addEventListener("click", function () { t = 0; render(t); setPlaying(true); });
+  steps.forEach(function (s) { s.addEventListener("click", function () { t = S[Number(s.dataset.scene)] + 0.05; render(t); }); });
+  setPlaying(playing); if (reduce) t = S[2] + 5; render(t); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
