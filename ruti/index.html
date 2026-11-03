@@ -230,6 +230,19 @@ footer a{color:var(--fg)}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}.btn:hover{transform:none}}
 </style>
+<!-- Google Ads tag + WhatsApp click conversion -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18554287737"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'AW-18554287737');
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href^="https://wa.me/"]');
+  if (!a) return;
+  gtag('event', 'conversion', {'send_to': 'AW-18554287737/xifnCMb9xbEdEPnsr49F'});
+});
+</script>
 </head>
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
